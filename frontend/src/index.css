@@ -1,0 +1,289 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: Arial, sans-serif;
+  color: #1f2937;
+  background: #f3f4f6;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.auth-page,
+.home-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.auth-card,
+.profile-card {
+  width: min(100%, 440px);
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.auth-card h1,
+.profile-card h1 {
+  margin-top: 0;
+}
+
+.auth-card label {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+  font-weight: 600;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.auth-card button,
+.logout-button {
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: white;
+  background: #2563eb;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.auth-card button {
+  width: 100%;
+  margin-top: 24px;
+}
+
+.auth-card button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.auth-card a {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.error-message {
+  padding: 10px;
+  color: #b91c1c;
+  background: #fee2e2;
+  border-radius: 8px;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 8%;
+  color: white;
+  background: #1d4ed8;
+}
+
+.navbar h2 {
+  margin: 0;
+}
+
+.logout-button {
+  background: #dc2626;
+}
+
+.profile-details {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 8px;
+  background: #eff6ff;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #2563eb;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 64px;
+}
+
+.brand {
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-actions a {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.products-page,
+.details-page {
+  min-height: calc(100vh - 64px);
+  padding: 36px 8%;
+}
+
+.products-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.products-header h1 {
+  margin: 4px 0 0;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+}
+
+.filters input,
+.filters select {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 24px;
+}
+
+.product-card {
+  overflow: hidden;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background: #e5e7eb;
+}
+
+.product-card-content {
+  padding: 16px;
+}
+
+.product-card h3 {
+  margin: 6px 0;
+}
+
+.category {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.in-stock {
+  color: #15803d;
+}
+
+.out-of-stock {
+  color: #b91c1c;
+}
+
+.details-link {
+  display: block;
+  margin-top: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+  background: #2563eb;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.details-card {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
+  gap: 36px;
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 28px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.details-card img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.details-description {
+  line-height: 1.6;
+}
+
+.details-card button {
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 8px;
+  color: white;
+  background: #2563eb;
+  font-weight: 700;
+}
+
+.state-message {
+  text-align: center;
+  padding: 32px;
+}
+
+@media (max-width: 700px) {
+  .navbar,
+  .products-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .filters,
+  .filters input,
+  .filters select {
+    width: 100%;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .details-card {
+    grid-template-columns: 1fr;
+  }
+}
