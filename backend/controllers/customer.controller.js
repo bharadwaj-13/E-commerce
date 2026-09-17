@@ -106,4 +106,10 @@ const changePassword = async (req, res) => {
   }
 };
 
-module.exports = { registerCustomer, loginCustomer, getMyProfile, logoutCustomer, changePassword };
+const Hello = (req, res) => {
+  return res.status(200).json({
+    message: "Hello Nipun",
+  });
+};
+
+module.exports = { registerCustomer, loginCustomer, getMyProfile, logoutCustomer, changePassword, Hello};
