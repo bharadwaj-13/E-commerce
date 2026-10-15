@@ -1,0 +1,10 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/customers/logout"
+method: POST
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Logged out", () => pm.response.to.have.status(200));
+    language: text/javascript
+order: 8000

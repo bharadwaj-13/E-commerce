@@ -1,0 +1,13 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/cart/{{demoProductId}}"
+method: POST
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+      const rows = pm.response.json().cart.filter((i) => i.product._id === pm.collectionVariables.get("demoProductId"));
+      pm.test("Still one row (no duplicates)", () => pm.expect(rows.length).to.eql(1));
+      pm.test("quantity = 2", () => pm.expect(rows[0].quantity).to.eql(2));
+    language: text/javascript
+order: 2000

@@ -1,0 +1,18 @@
+$kind: http-request
+description: "runValidators: true makes updates obey the schema too."
+url: "{{baseUrl}}/products/{{demoProductId}}"
+method: PATCH
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "stock": -1
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("400", () => pm.response.to.have.status(400));
+    language: text/javascript
+order: 11000

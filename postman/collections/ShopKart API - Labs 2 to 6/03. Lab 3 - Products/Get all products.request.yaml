@@ -1,0 +1,12 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/products"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+      const d = pm.response.json();
+      pm.test("count matches list", () => pm.expect(d.count).to.eql(d.products.length));
+    language: text/javascript
+order: 1000

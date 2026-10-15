@@ -1,0 +1,19 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/cart/{{demoProductId}}"
+method: PATCH
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "quantity": 0
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("400", () => pm.response.to.have.status(400));
+      pm.test("Message: at least 1", () => pm.expect(pm.response.json().message).to.include("at least 1"));
+    language: text/javascript
+order: 9000

@@ -1,0 +1,27 @@
+$kind: http-request
+name: Verify payment -> PAID
+description: ""
+url: "{{baseUrl}}/orders/verify-payment"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "shopKartOrderId": "{{shopKartOrderId}}",
+      "razorpay_order_id": "{{razorpayOrderId}}",
+      "razorpay_payment_id": "{{razorpay_payment_id}}",
+      "razorpay_signature": "{{razorpay_signature}}"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Signature valid", () => pm.response.to.have.status(200));
+      const d = pm.response.json();
+      pm.test("Order is PAID", () => pm.expect(d.order.paymentStatus).to.eql("PAID"));
+      pm.test("Order is PLACED", () => pm.expect(d.order.status).to.eql("PLACED"));
+      pm.test("Payment id stored", () => pm.expect(d.order.razorpayPaymentId).to.eql(pm.collectionVariables.get("razorpay_payment_id")));
+      pm.collectionVariables.set("paidOrderId", d.order._id);
+    language: text/javascript
+order: 4000

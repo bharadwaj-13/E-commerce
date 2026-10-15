@@ -1,0 +1,11 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/cart/{{demoProductId}}"
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+      pm.test("Product gone from cart", () => pm.expect(pm.response.json().cart.map((i) => i.product._id)).to.not.include(pm.collectionVariables.get("demoProductId")));
+    language: text/javascript
+order: 13000

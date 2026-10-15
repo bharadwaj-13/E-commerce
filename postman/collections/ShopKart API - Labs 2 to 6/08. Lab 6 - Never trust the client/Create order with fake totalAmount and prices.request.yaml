@@ -1,0 +1,38 @@
+$kind: http-request
+description: "Lab 6 Test 8 / Test A: the server only reads shippingAddress from the body."
+url: "{{baseUrl}}/orders/create-payment-order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "shippingAddress": {
+        "fullName": "Test User",
+        "phone": "9876543210",
+        "addressLine1": "221B Baker Street",
+        "city": "Bengaluru",
+        "state": "Karnataka",
+        "pincode": "560001"
+      },
+      "totalAmount": 1,
+      "items": [
+        {
+          "product": "{{productId}}",
+          "price": 1,
+          "quantity": 1
+        }
+      ]
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("201", () => pm.response.to.have.status(201));
+      const d = pm.response.json();
+      pm.collectionVariables.set("shopKartOrderId", d.shopKartOrderId);
+      pm.collectionVariables.set("razorpayOrderId", d.razorpayOrderId);
+      pm.test("Fake total ignored: amount is the real total in paise", () => pm.expect(d.amount).to.eql(Number(pm.collectionVariables.get("expectedPaise"))));
+      pm.test("Not 1 rupee", () => pm.expect(d.amount).to.not.eql(100));
+    language: text/javascript
+order: 2000

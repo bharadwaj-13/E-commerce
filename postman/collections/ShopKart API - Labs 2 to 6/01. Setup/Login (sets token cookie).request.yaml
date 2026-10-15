@@ -1,0 +1,20 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/customers/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "email": "{{email}}",
+      "password": "secret123"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Logged in", () => pm.response.to.have.status(200));
+      pm.test("token cookie set", () => pm.expect(pm.cookies.has("token")).to.be.true);
+    language: text/javascript
+order: 2000

@@ -1,0 +1,11 @@
+$kind: http-request
+description: Stock is 3 and the cart already has 3.
+url: "{{baseUrl}}/cart/{{demoProductId}}"
+method: POST
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("400", () => pm.response.to.have.status(400));
+      pm.test("Message: Only 3 units", () => pm.expect(pm.response.json().message).to.include("Only 3 units"));
+    language: text/javascript
+order: 7000

@@ -1,0 +1,11 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/wishlist/{{demoProductId}}"
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("404", () => pm.response.to.have.status(404));
+      pm.test("Message: not in wishlist", () => pm.expect(pm.response.json().message).to.include("not in wishlist"));
+    language: text/javascript
+order: 10000

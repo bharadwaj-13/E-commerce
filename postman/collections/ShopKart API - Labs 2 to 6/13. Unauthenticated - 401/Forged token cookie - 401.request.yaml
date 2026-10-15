@@ -1,0 +1,12 @@
+$kind: http-request
+description: A token not signed with JWT_SECRET fails jwt.verify().
+url: "{{baseUrl}}/cart"
+method: GET
+headers:
+  Cookie: token=eyJhbGciOiJIUzI1NiJ9.eyJpZCI6ImZha2UifQ.forged_signature
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("401", () => pm.response.to.have.status(401));
+    language: text/javascript
+order: 8000

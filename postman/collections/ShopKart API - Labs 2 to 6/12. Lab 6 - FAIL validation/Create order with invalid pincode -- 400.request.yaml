@@ -1,0 +1,27 @@
+$kind: http-request
+name: Create order with invalid pincode -> 400
+description: ""
+url: "{{baseUrl}}/orders/create-payment-order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "shippingAddress": {
+        "fullName": "Test User",
+        "phone": "9876543210",
+        "addressLine1": "221B Baker Street",
+        "city": "Bengaluru",
+        "state": "Karnataka",
+        "pincode": "12"
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Rejected", () => pm.response.to.have.status(400));
+      pm.test("Message: Pincode", () => pm.expect(pm.response.json().message).to.include("Pincode"));
+    language: text/javascript
+order: 3000

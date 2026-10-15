@@ -1,0 +1,11 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/orders"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200 OK", () => pm.response.to.have.status(200));
+      pm.test("Paid order listed", () => pm.expect(pm.response.json().orders.map(o => o._id)).to.include(pm.collectionVariables.get("shopKartOrderId")));
+    language: text/javascript
+order: 5000

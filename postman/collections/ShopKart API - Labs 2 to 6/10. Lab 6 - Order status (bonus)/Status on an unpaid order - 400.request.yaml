@@ -1,0 +1,17 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/orders/{{shopKartOrderId}}/status"
+method: PATCH
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {}
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("400", () => pm.response.to.have.status(400));
+      pm.test("Message: Only paid orders", () => pm.expect(pm.response.json().message).to.include("Only paid orders"));
+    language: text/javascript
+order: 4000

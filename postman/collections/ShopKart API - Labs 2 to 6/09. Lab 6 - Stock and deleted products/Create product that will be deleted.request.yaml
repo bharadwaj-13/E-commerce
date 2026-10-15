@@ -1,0 +1,24 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/products"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Soon Deleted",
+      "description": "Deleted after adding to cart",
+      "price": 50,
+      "category": "Demo",
+      "image": "https://placehold.co/300",
+      "stock": 5
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("201", () => pm.response.to.have.status(201));
+      pm.collectionVariables.set("tempProductId", pm.response.json().product._id);
+    language: text/javascript
+order: 7000

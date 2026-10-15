@@ -1,0 +1,22 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/customers/register"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "fullName": "Lab Six",
+      "email": "{{email}}",
+      "password": "secret123",
+      "phone": "9876543210"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("409", () => pm.response.to.have.status(409));
+      pm.test("Message: Email already exists", () => pm.expect(pm.response.json().message).to.include("Email already exists"));
+    language: text/javascript
+order: 3000

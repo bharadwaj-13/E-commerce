@@ -1,0 +1,27 @@
+$kind: http-request
+name: Create order with whitespace-only city -> 400
+description: ""
+url: "{{baseUrl}}/orders/create-payment-order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "shippingAddress": {
+        "fullName": "Test User",
+        "phone": "9876543210",
+        "addressLine1": "221B Baker Street",
+        "city": "   ",
+        "state": "Karnataka",
+        "pincode": "560001"
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("400", () => pm.response.to.have.status(400));
+      pm.test("Message: city is required", () => pm.expect(pm.response.json().message).to.include("city is required"));
+    language: text/javascript
+order: 5000

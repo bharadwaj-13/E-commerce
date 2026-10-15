@@ -1,0 +1,23 @@
+$kind: http-request
+name: Verify payment -> 400 Invalid signature
+description: ""
+url: "{{baseUrl}}/orders/verify-payment"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "shopKartOrderId": "{{shopKartOrderId}}",
+      "razorpay_order_id": "{{razorpayOrderId}}",
+      "razorpay_payment_id": "{{razorpay_payment_id}}",
+      "razorpay_signature": "{{razorpay_signature}}"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Rejected", () => pm.response.to.have.status(400));
+      pm.test("Invalid signature message", () => pm.expect(pm.response.json().message).to.eql("Invalid payment signature"));
+    language: text/javascript
+order: 4000

@@ -1,0 +1,15 @@
+$kind: collection
+description: Every ShopKart backend API from Labs 2-6, with pass and fail cases and automatic tests. Payments run in mock mode (no Razorpay account): with no RAZORPAY_KEY_ID/SECRET in .env the backend fakes the gateway, but the HMAC-SHA256 signature check in /orders/verify-payment is the real code path. Run the whole collection top to bottom with the Collection Runner, or open any folder to demo one lab.
+variables:
+  baseUrl: http://localhost:5001
+  email: ""
+  email2: ""
+  productId: ""
+  demoProductId: ""
+  tempProductId: ""
+  shopKartOrderId: ""
+  paidOrderId: ""
+  razorpayOrderId: ""
+  razorpay_payment_id: ""
+  razorpay_signature: ""
+  expectedPaise: ""

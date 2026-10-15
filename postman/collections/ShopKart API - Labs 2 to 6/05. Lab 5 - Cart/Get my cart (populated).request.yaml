@@ -1,0 +1,13 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/cart"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+      const item = pm.response.json().cart.find((i) => i.product._id === pm.collectionVariables.get("demoProductId"));
+      pm.test("Product populated", () => pm.expect(item.product).to.include.keys("name", "price", "image", "stock"));
+      pm.test("Quantity returned", () => pm.expect(item.quantity).to.eql(2));
+    language: text/javascript
+order: 3000

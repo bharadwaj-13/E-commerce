@@ -1,0 +1,11 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/orders/{{shopKartOrderId}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+      pm.test("Still PENDING", () => pm.expect(pm.response.json().order.paymentStatus).to.eql("PENDING"));
+    language: text/javascript
+order: 5000

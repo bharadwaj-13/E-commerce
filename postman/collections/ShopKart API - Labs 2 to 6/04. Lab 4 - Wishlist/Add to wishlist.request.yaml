@@ -1,0 +1,11 @@
+$kind: http-request
+description: "No body and no userId: the user comes from the JWT cookie."
+url: "{{baseUrl}}/wishlist/{{demoProductId}}"
+method: POST
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("201", () => pm.response.to.have.status(201));
+      pm.test("Message: Product added to wishlist", () => pm.expect(pm.response.json().message).to.include("Product added to wishlist"));
+    language: text/javascript
+order: 1000

@@ -1,0 +1,11 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/products/{{tempProductId}}"
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+      pm.test("Message: deleted", () => pm.expect(pm.response.json().message).to.include("deleted"));
+    language: text/javascript
+order: 13000

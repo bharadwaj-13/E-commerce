@@ -1,0 +1,11 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/orders/000000000000000000000000"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("404", () => pm.response.to.have.status(404));
+      pm.test("Message: Order not found", () => pm.expect(pm.response.json().message).to.include("Order not found"));
+    language: text/javascript
+order: 9000

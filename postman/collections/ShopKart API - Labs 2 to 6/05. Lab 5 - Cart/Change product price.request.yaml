@@ -1,0 +1,18 @@
+$kind: http-request
+description: Shows the cart stores a reference, not a copied price.
+url: "{{baseUrl}}/products/{{demoProductId}}"
+method: PATCH
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "price": 599
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+    language: text/javascript
+order: 4000

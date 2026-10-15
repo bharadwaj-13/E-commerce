@@ -1,0 +1,24 @@
+$kind: http-request
+description: Stock 3 makes the stock-limit tests predictable. Deleted again in Cleanup.
+url: "{{baseUrl}}/products"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Viva Demo Product",
+      "description": "Created by Postman for the viva demo",
+      "price": 499,
+      "category": "Demo",
+      "image": "https://placehold.co/300",
+      "stock": 3
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("201", () => pm.response.to.have.status(201));
+      pm.collectionVariables.set("demoProductId", pm.response.json().product._id);
+    language: text/javascript
+order: 4000

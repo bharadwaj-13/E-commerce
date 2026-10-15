@@ -26,6 +26,35 @@ const customerSchema = new mongoose.Schema(
       required: [true, "Phone number is required"],
       trim: true,
     },
+    // Product references only; the Product collection stays the source of truth.
+    wishlist: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+      ],
+      default: [],
+    },
+    // One row per product; quantity grows instead of duplicating rows. Price is never copied here.
+    cart: {
+      type: [
+        {
+          _id: false,
+          product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Product",
+            required: true,
+          },
+          quantity: {
+            type: Number,
+            default: 1,
+            min: [1, "Quantity must be at least 1"],
+          },
+        },
+      ],
+      default: [],
+    },
   },
   { timestamps: true }
 );

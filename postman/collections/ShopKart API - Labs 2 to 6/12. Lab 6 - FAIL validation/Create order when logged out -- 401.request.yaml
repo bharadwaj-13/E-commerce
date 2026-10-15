@@ -1,0 +1,26 @@
+$kind: http-request
+name: Create order when logged out -> 401
+description: ""
+url: "{{baseUrl}}/orders/create-payment-order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "shippingAddress": {
+        "fullName": "Test User",
+        "phone": "9876543210",
+        "addressLine1": "221B Baker Street",
+        "city": "Bengaluru",
+        "state": "Karnataka",
+        "pincode": "560001"
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Unauthorized", () => pm.response.to.have.status(401));
+    language: text/javascript
+order: 9000

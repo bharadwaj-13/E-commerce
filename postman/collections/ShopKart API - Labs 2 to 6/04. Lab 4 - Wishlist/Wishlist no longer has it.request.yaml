@@ -1,0 +1,11 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/wishlist"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+      pm.test("Removed product gone", () => pm.expect(pm.response.json().wishlist.map((p) => p._id)).to.not.include(pm.collectionVariables.get("demoProductId")));
+    language: text/javascript
+order: 11000

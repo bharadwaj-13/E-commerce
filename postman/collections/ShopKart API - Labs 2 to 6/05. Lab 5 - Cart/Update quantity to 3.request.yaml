@@ -1,0 +1,20 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/cart/{{demoProductId}}"
+method: PATCH
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "quantity": 3
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+      const item = pm.response.json().cart.find((i) => i.product._id === pm.collectionVariables.get("demoProductId"));
+      pm.test("quantity = 3", () => pm.expect(item.quantity).to.eql(3));
+    language: text/javascript
+order: 6000

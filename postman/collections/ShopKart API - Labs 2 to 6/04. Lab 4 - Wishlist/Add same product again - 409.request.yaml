@@ -1,0 +1,11 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/wishlist/{{demoProductId}}"
+method: POST
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("409", () => pm.response.to.have.status(409));
+      pm.test("Message: already in wishlist", () => pm.expect(pm.response.json().message).to.include("already in wishlist"));
+    language: text/javascript
+order: 2000

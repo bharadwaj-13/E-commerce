@@ -1,0 +1,11 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/cart"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+      pm.test("Deleted product filtered out", () => pm.expect(pm.response.json().cart.map((i) => i.product._id)).to.not.include(pm.collectionVariables.get("tempProductId")));
+    language: text/javascript
+order: 10000

@@ -1,0 +1,23 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/products"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Bad",
+      "description": "Bad price",
+      "price": -5,
+      "category": "Demo",
+      "image": "https://placehold.co/300",
+      "stock": 1
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("400", () => pm.response.to.have.status(400));
+    language: text/javascript
+order: 6000

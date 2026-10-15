@@ -9,6 +9,32 @@ function Products() {
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [savedIds, setSavedIds] = useState(new Set());
+  const [navbarRefreshKey, setNavbarRefreshKey] = useState(0);
+
+  // Load which products are already saved so each card shows the right wishlist state.
+  useEffect(() => {
+    const fetchSavedIds = async () => {
+      try {
+        const response = await api.get("/wishlist");
+        setSavedIds(new Set(response.data.wishlist.map((product) => product._id)));
+      } catch {
+        setSavedIds(new Set());
+      }
+    };
+
+    fetchSavedIds();
+  }, []);
+
+  const handleWishlistChange = (productId, saved) => {
+    setSavedIds((current) => {
+      const next = new Set(current);
+      if (saved) next.add(productId);
+      else next.delete(productId);
+      return next;
+    });
+    setNavbarRefreshKey((key) => key + 1);
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -36,7 +62,7 @@ function Products() {
 
   return (
     <>
-      <Navbar />
+      <Navbar refreshKey={navbarRefreshKey} />
 
       <main className="products-page">
         <header className="products-header">
@@ -76,7 +102,12 @@ function Products() {
         {!loading && !error && products.length > 0 && (
           <section className="products-grid">
             {products.map((product) => (
-              <ProductCard key={product._id} product={product} />
+              <ProductCard
+                key={product._id}
+                product={product}
+                saved={savedIds.has(product._id)}
+                onWishlistChange={handleWishlistChange}
+              />
             ))}
           </section>
         )}

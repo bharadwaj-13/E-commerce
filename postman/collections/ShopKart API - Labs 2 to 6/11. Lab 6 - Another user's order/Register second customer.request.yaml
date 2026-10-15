@@ -1,0 +1,25 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/customers/register"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "fullName": "Other User",
+      "email": "{{email2}}",
+      "password": "secret123",
+      "phone": "9123456780"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("201", () => pm.response.to.have.status(201));
+    language: text/javascript
+  - type: beforeRequest
+    code: |-
+      pm.collectionVariables.set("email2", `other_${Date.now()}@test.com`);
+    language: text/javascript
+order: 1000

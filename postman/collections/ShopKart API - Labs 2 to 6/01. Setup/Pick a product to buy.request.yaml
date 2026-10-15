@@ -1,0 +1,15 @@
+$kind: http-request
+description: Reuses an existing catalog product instead of creating a new one.
+url: "{{baseUrl}}/products?category=Books"
+method: GET
+queryParams:
+  category: Books
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200 OK", () => pm.response.to.have.status(200));
+      const product = pm.response.json().products.find((p) => p.stock >= 2);
+      pm.test("An in-stock product exists", () => pm.expect(product).to.exist);
+      pm.collectionVariables.set("productId", product._id);
+    language: text/javascript
+order: 3000

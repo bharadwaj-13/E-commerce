@@ -1,0 +1,20 @@
+$kind: http-request
+description: Same message as a wrong password, so attackers cannot tell which emails exist.
+url: "{{baseUrl}}/customers/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "email": "nobody_here@test.com",
+      "password": "secret123"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("401", () => pm.response.to.have.status(401));
+      pm.test("Message: Invalid credentials", () => pm.expect(pm.response.json().message).to.include("Invalid credentials"));
+    language: text/javascript
+order: 7000

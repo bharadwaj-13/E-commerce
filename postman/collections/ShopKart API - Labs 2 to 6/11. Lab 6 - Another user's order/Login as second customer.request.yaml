@@ -1,0 +1,19 @@
+$kind: http-request
+description: The token cookie is replaced, so every request below runs as the second user.
+url: "{{baseUrl}}/customers/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "email": "{{email2}}",
+      "password": "secret123"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+    language: text/javascript
+order: 2000

@@ -1,0 +1,23 @@
+$kind: http-request
+name: Verify with fake signature -> 400
+description: "Lab 6 Test B: a made-up signature never marks an order PAID."
+url: "{{baseUrl}}/orders/verify-payment"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "shopKartOrderId": "{{shopKartOrderId}}",
+      "razorpay_order_id": "{{razorpayOrderId}}",
+      "razorpay_payment_id": "pay_fake123",
+      "razorpay_signature": "fake_signature"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("400", () => pm.response.to.have.status(400));
+      pm.test("Message: Invalid payment signature", () => pm.expect(pm.response.json().message).to.include("Invalid payment signature"));
+    language: text/javascript
+order: 4000

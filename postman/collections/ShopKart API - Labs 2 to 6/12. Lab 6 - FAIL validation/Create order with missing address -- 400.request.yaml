@@ -1,0 +1,17 @@
+$kind: http-request
+name: Create order with missing address -> 400
+description: ""
+url: "{{baseUrl}}/orders/create-payment-order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {}
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Rejected", () => pm.response.to.have.status(400));
+    language: text/javascript
+order: 6000

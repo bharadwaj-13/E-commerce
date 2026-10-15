@@ -1,0 +1,21 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/orders/{{shopKartOrderId}}/mock-pay"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "outcome": "fail"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200 OK", () => pm.response.to.have.status(200));
+      const d = pm.response.json();
+      pm.collectionVariables.set("razorpay_payment_id", d.razorpay_payment_id);
+      pm.collectionVariables.set("razorpay_signature", d.razorpay_signature);
+    language: text/javascript
+order: 3000

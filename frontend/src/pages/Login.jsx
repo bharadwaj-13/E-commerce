@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 import api from "../services/api";
 
 function Login() {
   const navigate = useNavigate();
+  const { refreshCart } = useCart();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,6 +25,8 @@ function Login() {
 
     try {
       await api.post("/customers/login", { email, password });
+      // Load this customer's saved cart into the shared state.
+      refreshCart();
       navigate("/home");
     } catch (error) {
       setError(error.response?.data?.message || "Invalid credentials");

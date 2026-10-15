@@ -1,0 +1,17 @@
+$kind: http-request
+description: ""
+url: http://localhost:5001/products
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Incomplete"
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test("400", () => pm.response.to.have.status(400));
+    language: text/javascript
+order: 5000

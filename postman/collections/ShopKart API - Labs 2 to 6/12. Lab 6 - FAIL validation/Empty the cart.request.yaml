@@ -1,0 +1,11 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/cart/{{productId}}"
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+      pm.test("Cart empty", () => pm.expect(pm.response.json().cart).to.have.length(0));
+    language: text/javascript
+order: 1000

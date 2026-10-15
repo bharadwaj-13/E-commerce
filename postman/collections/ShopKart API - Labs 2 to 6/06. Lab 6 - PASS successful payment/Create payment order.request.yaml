@@ -1,0 +1,30 @@
+$kind: http-request
+description: Server computes the total from the cart and creates a Razorpay order (mock).
+url: "{{baseUrl}}/orders/create-payment-order"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "shippingAddress": {
+        "fullName": "Test User",
+        "phone": "9876543210",
+        "addressLine1": "221B Baker Street",
+        "city": "Bengaluru",
+        "state": "Karnataka",
+        "pincode": "560001"
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("201 Created", () => pm.response.to.have.status(201));
+      const d = pm.response.json();
+      pm.collectionVariables.set("shopKartOrderId", d.shopKartOrderId);
+      pm.collectionVariables.set("razorpayOrderId", d.razorpayOrderId);
+      pm.test("Razorpay order id returned", () => pm.expect(d.razorpayOrderId).to.match(/^order_/));
+      pm.test("Amount is in paise", () => pm.expect(d.amount).to.be.a("number"));
+    language: text/javascript
+order: 1000

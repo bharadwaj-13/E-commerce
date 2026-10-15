@@ -1,0 +1,13 @@
+$kind: http-request
+description: ""
+url: "{{baseUrl}}/customers/me"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+      const d = pm.response.json();
+      pm.test("Email matches logged-in user", () => pm.expect(d.email).to.eql(pm.collectionVariables.get("email")));
+      pm.test("Password is never returned", () => pm.expect(d).to.not.have.property("password"));
+    language: text/javascript
+order: 2000

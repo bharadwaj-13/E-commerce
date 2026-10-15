@@ -1,0 +1,22 @@
+$kind: http-request
+description: "Idempotent: verifying twice does not double-charge stock or change anything."
+url: "{{baseUrl}}/orders/verify-payment"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "shopKartOrderId": "{{paidOrderId}}",
+      "razorpay_order_id": "order_any",
+      "razorpay_payment_id": "pay_any",
+      "razorpay_signature": "any"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("200", () => pm.response.to.have.status(200));
+      pm.test("Message: already verified", () => pm.expect(pm.response.json().message).to.include("already verified"));
+    language: text/javascript
+order: 6000

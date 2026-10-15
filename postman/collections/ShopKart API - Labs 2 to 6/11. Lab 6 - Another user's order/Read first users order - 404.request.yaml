@@ -1,0 +1,12 @@
+$kind: http-request
+name: Read first user's order - 404
+description: "Lab 6 Test 10: 404 instead of 403 so the order's existence is not revealed."
+url: "{{baseUrl}}/orders/{{paidOrderId}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("404", () => pm.response.to.have.status(404));
+      pm.test("Message: Order not found", () => pm.expect(pm.response.json().message).to.include("Order not found"));
+    language: text/javascript
+order: 3000
